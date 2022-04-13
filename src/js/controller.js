@@ -2,6 +2,8 @@
 // Parcel 1이라면 절대 경로를 그대로 쓰지만, Parcel 2부터는 'url:'을 앞에 붙여 쓴다.
 // Parcel은 해당 경로를 번들링된 (dist 폴더에 생성되는) 파일의 경로로 바꾸어 주는 역할.
 import icons from 'url:../img/icons.svg';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 const recipeContainer = document.querySelector('.recipe');
 
@@ -17,9 +19,27 @@ const timeout = function (s) {
 
 ///////////////////////////////////////
 
+// 로딩 스피너...개충격...
+const renderSpinner = function (parentEl) {
+  console.log('ok');
+
+  const markup = `
+    <div class="spinner">
+      <svg>
+        <use href="${icons}#icon-loader"></use>
+      </svg>
+    </div>
+  `;
+  parentEl.innerHTML = '';
+  parentEl.insertAdjacentHTML('afterbegin', markup);
+};
+
 const showRecipe = async function () {
   try {
     // 1. Loading Recipe
+
+    // 로딩 스피너 먼저 렌더링.
+    renderSpinner(recipeContainer);
     const res = await fetch(
       // 'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bcd09'
       'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886'
@@ -143,8 +163,9 @@ const showRecipe = async function () {
     `;
 
     // 마크업을 렌더링 하기 전에 마크업이 렌더링될 엘레먼트 내의 마크업을 초기화 한다.
+    // (이때 로딩 스피너도 마크업에서 사라진다)
     recipeContainer.innerHTML = '';
-    // 마크업을 주입한다.
+    // 새로운 마크업을 주입한다.
     recipeContainer.insertAdjacentHTML('afterbegin', markup);
   } catch (error) {
     alert(error);
