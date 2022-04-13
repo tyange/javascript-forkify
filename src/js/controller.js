@@ -36,13 +36,16 @@ const renderSpinner = function (parentEl) {
 
 const showRecipe = async function () {
   try {
-    // 1. Loading Recipe
+    const id = window.location.hash.slice(1);
 
+    // id가 주어지지 않을 경우를 위한 guard.
+    if (!id) return;
+
+    // 1. Loading Recipe
     // 로딩 스피너 먼저 렌더링.
     renderSpinner(recipeContainer);
     const res = await fetch(
-      // 'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bcd09'
-      'https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886'
+      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
     );
     const data = await res.json();
 
@@ -172,4 +175,12 @@ const showRecipe = async function () {
   }
 };
 
-showRecipe();
+// 전역(window)에 'hashchane' 이벤트가 발생할 때, showRecipe를 실행.
+// window.addEventListener('hashchange', showRecipe);
+// 오로지 hash에 변경이 있을 때에만 showRecipe가 실행되므로,
+// hash의 변경 없이 page가 로드될 때에도 실행되도록 load 이벤트 핸들러를 추가.
+// (일반적으로 hash의 변경 없이 page가 로드 되는 때란, url을 복사해 새로운 탭에서 붙여넣기 할 때.)
+// window.addEventListener('load', showRecipe);
+
+// 여러 이벤트를 하나의 핸들러로 묶기.
+['hashchange', 'load'].forEach(ev => addEventListener(ev, showRecipe));
