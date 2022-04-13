@@ -16,8 +16,6 @@ const timeout = function (s) {
 
 ///////////////////////////////////////
 
-// 로딩 스피너...개충격...
-
 const controlRecipe = async function () {
   try {
     const id = window.location.hash.slice(1);
