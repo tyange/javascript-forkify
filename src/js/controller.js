@@ -1,3 +1,5 @@
+import * as model from './model.js';
+
 // Parcel을 통해 icons 파일을 불러온다.
 // Parcel 1이라면 절대 경로를 그대로 쓰지만, Parcel 2부터는 'url:'을 앞에 붙여 쓴다.
 // Parcel은 해당 경로를 번들링된 (dist 폴더에 생성되는) 파일의 경로로 바꾸어 주는 역할.
@@ -41,28 +43,12 @@ const showRecipe = async function () {
     // id가 주어지지 않을 경우를 위한 guard.
     if (!id) return;
 
-    // 1. Loading Recipe
     // 로딩 스피너 먼저 렌더링.
     renderSpinner(recipeContainer);
-    const res = await fetch(
-      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
-    );
-    const data = await res.json();
 
-    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
-
-    let { recipe } = data.data;
-    recipe = {
-      id: recipe.id,
-      title: recipe.title,
-      publisher: recipe.publisher,
-      sourceUrl: recipe.source_url,
-      image: recipe.image_url,
-      serving: recipe.serving,
-      cookingTime: recipe.cooking_time,
-      ingredients: recipe.ingredients,
-    };
-    console.log(recipe);
+    // 1. Loading Recipe
+    await model.loadRecipe(id);
+    const { recipe } = model.state;
 
     // 2. Rendering Recipe
     // recipe 마크업에 사용될 html을 작성한다(이 부분에서 너무 놀랐고, 신기했음).
