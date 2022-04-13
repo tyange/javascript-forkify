@@ -19,8 +19,6 @@ class RecipeView {
   }
 
   renderSpinner() {
-    console.log('ok');
-
     const markup = `
       <div class="spinner">
         <svg>
