@@ -948,7 +948,7 @@ fill-range@^7.0.1:
   dependencies:
     to-regex-range "^5.0.1"
 
-fracty@^1.0.9:
+fracty@^1.0.10:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/fracty/-/fracty-1.0.10.tgz#52dcc69959c8a8e860789660d0d66370ca7bc3a4"
   integrity sha512-7j+pZqbB2i5GlkegcWonKe458Dn6lR+QoYObvoXfUYS34PJ+kaVjEgJuKfIh17A0WR6Ayuvzm6UPGA3sY5TVYA==
